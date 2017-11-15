@@ -1,8 +1,13 @@
 package org.ulco;
 
 abstract public class GraphicsObject {
+
     public GraphicsObject() {
         m_ID = ++ID.ID;
+    }
+
+    public int size() {
+        return 1;
     }
 
     abstract public GraphicsObject copy();
