@@ -22,10 +22,24 @@ public class LayerTest extends TestCase {
         Layer l = new Layer();
         Square s = new Square(new Point(0, 0), 5);
         Circle c = new Circle(new Point(5, 5), 4);
-
         l.add(s);
         l.add(c);
         assertEquals(l.toJson(), "{ type: layer, objects : { { type: square, center: { type: point, x: 0.0, y: 0.0 }, length: 5.0 }, " +
                 "{ type: circle, center: { type: point, x: 5.0, y: 5.0 }, radius: 4.0 } } }");
     }
+
+    @Test
+    public void testJSON2() throws Exception {
+        Square s = new Square(new Point(0, 0), 5);
+        Circle c = new Circle(new Point(5, 5), 4);
+        Group g = new Group();
+        g.add(s);
+        g.add(c);
+        Layer l = new Layer();
+        l.add(g);
+        Layer l2 = new Layer(l.toJson());
+        assertEquals(l2.toJson(), l.toJson());
+    }
+
+
 }

@@ -111,8 +111,6 @@ public class Group extends GraphicsObject {
     }
 
     private void parseObjects(String objectsStr) {
-        int objectsIndex = objectsStr.indexOf("objects");
-        int groupsIndex = objectsStr.indexOf("groups");
         while (!objectsStr.isEmpty()) {
             int separatorIndex = searchSeparator(objectsStr);
             String objectStr;
@@ -139,11 +137,15 @@ public class Group extends GraphicsObject {
         return s;
     }
 
+    public int type() {
+        return 2;
+    }
+
     public String toJson() {
         String object_str = "{ type: group, objects : { ";
         String group_str = " }, groups : { ";
         for (GraphicsObject element : m_objectList) {
-            if (element.size() == 1) {
+            if (element.type() == 1) {
                 object_str += element.toJson() + ", ";
             }
             else {
@@ -157,7 +159,7 @@ public class Group extends GraphicsObject {
         String object_str = "group[[";
         String group_str = "],[";
         for (GraphicsObject element : m_objectList) {
-            if (element.size() == 1) {
+            if (element.type() == 1) {
                 object_str += element.toString() + ", ";
             }
             else {

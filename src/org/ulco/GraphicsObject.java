@@ -10,6 +10,10 @@ abstract public class GraphicsObject {
         return 1;
     }
 
+    public int type() {
+        return 1;
+    }
+
     abstract public GraphicsObject copy();
 
     public int getID() {
