@@ -1,6 +1,6 @@
 package org.ulco;
 
-public class Point {
+public class Point implements Parsable{
     public Point(double x, double y) {
         m_x = x;
         m_y = y;
@@ -15,6 +15,10 @@ public class Point {
 
         m_x = Double.parseDouble(str.substring(xIndex + 2, separatorIndex));
         m_y = Double.parseDouble(str.substring(yIndex + 2, endIndex));
+    }
+
+    public double distance(Point p){
+        return Math.sqrt(Math.pow(getX() - p.getX(),2) + Math.pow(getY() - p.getY(), 2));
     }
 
     public Point copy() {
