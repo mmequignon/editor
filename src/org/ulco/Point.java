@@ -39,12 +39,20 @@ public class Point implements Parsable{
         m_y += delta.getY();
     }
 
-    public String toJson() {
-        return "{ type: point, x: " + m_x + ", y: " + this.m_y + " }";
-    }
-
     public String toString() {
         return "point[" + m_x + "," + m_y + "]";
+    }
+
+    public String get_name(){
+        return "point";
+    }
+
+    public int type(){
+        return 0;
+    }
+
+    public String get_container_type(){
+        return "points";
     }
 
     private double m_x;

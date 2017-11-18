@@ -23,12 +23,16 @@ public class Circle extends GraphicsObject {
 
     void move(Point delta) { m_center.move(delta); }
 
-    public String toJson() {
-        return "{ type: circle, center: " + m_center.toJson() + ", radius: " + this.m_radius + " }";
-    }
-
     public String toString() {
         return "circle[" + m_center.toString() + "," + m_radius + "]";
+    }
+
+    public double get_radius(){
+        return m_radius;
+    }
+
+    public String get_name(){
+        return "circle";
     }
 
     private final Point m_center;

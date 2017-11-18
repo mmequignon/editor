@@ -2,9 +2,9 @@ package org.ulco;
 
 import java.util.Vector;
 
-public class Layer implements Parsable{
+public class Layer implements Container{
     public Layer() {
-        m_list = new Vector<GraphicsObject>();
+        children = new Vector<GraphicsObject>();
         m_ID = ID.getInstance().next();
     }
 
@@ -13,58 +13,46 @@ public class Layer implements Parsable{
         separators.add("objects");
         separators.add("groups");
         separators.add("}");
-        m_list = JSON.parseItems(json, separators);
+        children = JSON.parseItems(json, separators);
     }
 
     public void add(GraphicsObject o) {
-        m_list.add(o);
+        children.add(o);
     }
 
     public GraphicsObject get(int index) {
-        return m_list.elementAt(index);
+        return children.elementAt(index);
     }
 
     public int getObjectNumber() {
-        return m_list.size();
+        return children.size();
     }
 
     public int getID() {
         return m_ID;
     }
 
-    public String toJson() {
-        String object_prefix = "{ type: layer, objects : { ";
-        String object_str = "";
-        String group_separator = " }, groups : { ";
-        String group_str = "";
-        for (GraphicsObject element : m_list) {
-            if (element.type() == 1) {
-                object_str += element.toJson() + ", ";
-            }
-            else {
-                group_str += element.toJson();
-            }
-        }
-        String object_out;
-        if (object_str.length() > 0){
-            object_out = object_prefix + object_str.substring(0, object_str.length() -2);
-        }
-        else {
-            object_out = object_prefix + object_str;
-        }
-        String group_out = "";
-        if (group_str.length() > 0){
-            group_out = group_separator + group_str;
-        }
-        return object_out + group_out +  " } }";
+    public Vector<GraphicsObject> get_children() {
+        return children;
     }
 
-
-
-    public Vector<GraphicsObject> get_objects() {
-        return m_list;
+    public String get_name(){
+        return "layer";
     }
 
-    private Vector<GraphicsObject> m_list;
+    public int type(){
+        return 2;
+    }
+
+    @Override
+    public String[] get_children_types() {
+        return new String[]{"objects", "groups"};
+    }
+
+    public String get_container_type(){
+        return "layers";
+    }
+
+    private Vector<GraphicsObject> children;
     private int m_ID;
 }

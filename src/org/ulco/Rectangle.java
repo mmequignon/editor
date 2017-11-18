@@ -23,17 +23,25 @@ public class Rectangle extends GraphicsObject {
     public Point getOrigin() { return m_origin; }
 
     Point center() {
-        return new Point(m_origin.getX() + m_width / 2, m_origin.getY() + m_height / 2);
+        return m_origin;
     }
 
     void move(Point delta) { m_origin.move(delta); }
 
-    public String toJson() {
-        return "{ type: rectangle, center: " + m_origin.toJson() + ", height: " + this.m_height + ", width: " + this.m_width + " }";
-    }
-
     public String toString() {
         return "rectangle[" + m_origin.toString() + "," + m_height + "," + m_width + "]";
+    }
+
+    public double get_height(){
+        return m_height;
+    }
+
+    public double get_width(){
+        return m_width;
+    }
+
+    public String get_name(){
+        return "rectangle";
     }
 
     protected Point m_origin;

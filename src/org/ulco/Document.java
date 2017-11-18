@@ -2,16 +2,16 @@ package org.ulco;
 
 import java.util.Vector;
 
-public class Document implements Parsable{
+public class Document implements Container{
     public Document() {
-        m_layers = new Vector<Layer>();
+        children = new Vector<Layer>();
     }
 
     public Document(String json) {
         Vector<String> separators = new Vector<String>();
         separators.add("layers");
         separators.add("}");
-        m_layers = JSON.parseItems(json, separators);
+        children = JSON.parseItems(json, separators);
     }
 
 
@@ -33,42 +33,42 @@ public class Document implements Parsable{
 
     public Layer createLayer() {
         Layer layer = new Layer();
-        m_layers.add(layer);
+        children.add(layer);
         return layer;
     }
 
     public int getLayerNumber() {
-        return m_layers.size();
+        return children.size();
     }
 
     public int getObjectNumber() {
         int size = 0;
 
-        for (int i = 0; i < m_layers.size(); ++i) {
-            size += m_layers.elementAt(i).getObjectNumber();
+        for (int i = 0; i < children.size(); ++i) {
+            size += children.elementAt(i).getObjectNumber();
         }
         return size;
     }
 
-
-
-    public Vector<Layer> get_layers() {
-        return m_layers;
+    public String get_name(){
+        return "document";
     }
 
-    public String toJson() {
-        String str = "{ type: document, layers: { ";
-
-        for (int i = 0; i < m_layers.size(); ++i) {
-            Layer element = m_layers.elementAt(i);
-
-            str += element.toJson();
-            if (i < m_layers.size() - 1) {
-                str += ", ";
-            }
-        }
-        return str + " } }";
+    public int type(){
+        return 2;
     }
 
-    private Vector<Layer> m_layers;
+    public Vector<Layer> get_children() {
+        return children;
+    }
+
+    public String[] get_children_types(){
+        return new String[]{"layers"};
+    }
+
+    public String get_container_type(){
+        return "documents";
+    }
+
+    private Vector<Layer> children;
 }

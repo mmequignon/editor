@@ -17,11 +17,12 @@ public class Square extends Rectangle {
         return new Square(m_origin.copy(), m_width);
     }
 
-    public String toJson() {
-        return "{ type: square, center: " + m_origin.toJson() + ", length: " + this.m_width + " }";
-    }
-
     public String toString() {
         return "square[" + m_origin.toString() + "," + m_width + "]";
+    }
+
+    @Override
+    public String get_name() {
+        return "square";
     }
 }

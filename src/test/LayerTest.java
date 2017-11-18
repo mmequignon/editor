@@ -24,8 +24,8 @@ public class LayerTest extends TestCase {
         Circle c = new Circle(new Point(5, 5), 4);
         l.add(s);
         l.add(c);
-        assertEquals(l.toJson(), "{ type: layer, objects : { { type: square, center: { type: point, x: 0.0, y: 0.0 }, length: 5.0 }, " +
-                "{ type: circle, center: { type: point, x: 5.0, y: 5.0 }, radius: 4.0 } } }");
+        assertEquals(JSON.parsable2json(l), "{ type: layer, objects : { { type: square, center: { type: point, x: 0.0, y: 0.0 }, length: 5.0 }, " +
+                "{ type: circle, center: { type: point, x: 5.0, y: 5.0 }, radius: 4.0 } }, groups : {  } }");
     }
 
     @Test
@@ -37,8 +37,8 @@ public class LayerTest extends TestCase {
         g.add(c);
         Layer l = new Layer();
         l.add(g);
-        Layer l2 = new Layer(l.toJson());
-        assertEquals(l2.toJson(), l.toJson());
+        Layer l2 = new Layer(JSON.parsable2json(l));
+        assertEquals(JSON.parsable2json(l2), JSON.parsable2json(l));
     }
 
 

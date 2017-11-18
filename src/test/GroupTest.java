@@ -47,7 +47,7 @@ public class GroupTest extends TestCase {
 
         g.add(s);
         g.add(c);
-        assertEquals(g.toJson(), "{ type: group, objects : { { type: square, center: { type: point, x: 0.0, y: 0.0 }, length: 5.0 }, " +
+        assertEquals(JSON.parsable2json(g), "{ type: group, objects : { { type: square, center: { type: point, x: 0.0, y: 0.0 }, length: 5.0 }, " +
                 "{ type: circle, center: { type: point, x: 5.0, y: 5.0 }, radius: 4.0 } }, groups : {  } }");
     }
 
@@ -63,7 +63,7 @@ public class GroupTest extends TestCase {
         g.add(c);
         g2.add(g);
         g2.add(r);
-        assertEquals(g2.toJson(), "{ type: group, objects : { { type: rectangle, center: { type: point, x: -6.0, y: 10.0 }, " +
+        assertEquals(JSON.parsable2json(g2), "{ type: group, objects : { { type: rectangle, center: { type: point, x: -6.0, y: 10.0 }, " +
                 "height: 5.2, width: 9.0 } }, groups : { { type: group, objects : { { type: square, center: { type: point, x: 0.0, " +
                 "y: 0.0 }, length: 5.0 }, { type: circle, center: { type: point, x: 5.0, y: 5.0 }, radius: 4.0 } }, " +
                 "groups : {  } } } }");
