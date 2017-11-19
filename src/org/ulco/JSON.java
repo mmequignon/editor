@@ -170,6 +170,10 @@ public class JSON {
             Rectangle re = (Rectangle) go;
             output = "height: " + re.get_height() + ", width: " + re.get_width();
         }
+        else if (go.get_name() == "triangle"){
+            Triangle tr = (Triangle) go;
+            output = "length: " + tr.get_length() + ", height: " + tr.get_height() ;
+        }
         return output;
     }
 
