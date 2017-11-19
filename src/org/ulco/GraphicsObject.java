@@ -32,6 +32,17 @@ abstract public class GraphicsObject implements Parsable{
 
     private int m_ID;
 
+    Color inner_color = null;
+    Color outer_color = null;
+
+    public Color get_inner_color() {
+        return inner_color;
+    }
+
+    public Color get_outer_color() {
+        return outer_color;
+    }
+
     public String get_container_type(){
         return "objects";
     }

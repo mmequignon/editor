@@ -120,6 +120,13 @@ public class JSON {
         return Double.parseDouble(doubleStr.substring(begin, end));
     }
 
+    static public Color parseColor(String colorStr, String init, String separator){
+        int begin, end;
+        begin = colorStr.indexOf(init) + init.length() + 2;
+        end = colorStr.indexOf(separator) -2;
+        return (Color) parse(colorStr.substring(begin, end));
+    }
+
     static public Point parsePoint(String pointStr, String separator){
         int begin, end;
         begin = pointStr.indexOf("center") + 7;
@@ -131,6 +138,22 @@ public class JSON {
 
     private static String center2json(Point center){
         return "{ type: point, x: " + center.getX() + ", y: " + center.getY() + " }";
+    }
+
+
+
+    private static String color2json(GraphicsObject go, String type){
+        String prefix, suffix;
+        prefix = type + ": { type: color, name: ";
+        Color color;
+        if (type.equals("inner")){
+            color = go.get_inner_color();
+        }
+        else {
+            color = go.get_outer_color();
+        }
+        suffix = " }";
+        return (color == null) ? "" : prefix + color.toString() + suffix;
     }
 
     private static String attrs2json(GraphicsObject go){
@@ -153,6 +176,10 @@ public class JSON {
     private static String object2json(GraphicsObject go){
         String prefix = "center: ";
         prefix += center2json(go.center()) + ", ";
+        for (String type : new String[] {"inner", "outer"}){
+            String color = color2json(go, type);
+            prefix += color.isEmpty() ? "" : color + ", ";
+        }
         prefix += attrs2json(go);
         return prefix;
     }
