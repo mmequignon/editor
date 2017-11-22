@@ -21,23 +21,10 @@ public class JSON {
         }
     }
 
-    static public Group parseGroup(String json) {
-        return new Group(json);
-    }
-
-    static public Layer parseLayer(String json) {
-        return new Layer(json);
-    }
-
-    static public Document parseDocument(String json) {
-        return new Document(json);
-    }
-
     static public int searchSeparator(String str) {
         int index = 0;
         int level = 0;
         boolean found = false;
-
         while (!found && index < str.length()) {
             if (str.charAt(index) == '{') {
                 ++level;
@@ -58,10 +45,6 @@ public class JSON {
         }
     }
 
-    static public String clean(String str){
-        return str.replaceAll("\\s+", "");
-    }
-
     static public <T> Vector<T> parseItem(String itemsStr) {
         Vector<T> items = new Vector<>();
         while (!itemsStr.isEmpty()) {
@@ -80,21 +63,21 @@ public class JSON {
         return items;
     }
 
-    static public <T> Vector<T> parseItems(String itemsStr, Vector<String> separators) {
-        itemsStr = clean(itemsStr);
+    static public <T> Vector<T> parseItems(String itemsStr, String[] separators) {
+        itemsStr = itemsStr.replaceAll("\\s", "");
         Vector<T> items = new Vector<>();
-        for (int i = 0; i < separators.size() - 1; i++) {
-            int begin = itemsStr.indexOf(separators.elementAt(i));
+        for (int i = 0; i < separators.length - 1; i++) {
+            int begin = itemsStr.indexOf(separators[i]);
             if (begin == -1) {
                 continue;
             }
-            begin = begin + separators.elementAt(i).length() + 2;
-            for (int j = i + 1; j < separators.size(); j++) {
+            begin = begin + separators[i].length() + 2;
+            for (int j = i + 1; j < separators.length; j++) {
                 int end;
-                if (j == separators.size() - 1) {
-                    end = itemsStr.lastIndexOf(separators.elementAt(j)) - 1;
+                if (j == separators.length - 1) {
+                    end = itemsStr.lastIndexOf(separators[j]) - 1;
                 } else {
-                    end = itemsStr.indexOf(separators.elementAt(j)) - 2;
+                    end = itemsStr.indexOf(separators[j]) - 2;
                 }
                 if (end < 0) {
                     continue;
@@ -108,7 +91,7 @@ public class JSON {
     }
 
     static public Double parseDouble(String doubleStr, String name, String separator){
-        doubleStr = clean(doubleStr);
+        doubleStr = doubleStr.replaceAll("\\s", "");
         int begin, end;
         begin = doubleStr.indexOf(name) + name.length() + 1;
         if (separator.equals("}")){
@@ -127,20 +110,16 @@ public class JSON {
         return (Color) parse(colorStr.substring(begin, end));
     }
 
-    static public Point parsePoint(String pointStr, String separator){
+    static public Point parsePoint(String pointStr, String init, String separator){
         int begin, end;
-        begin = pointStr.indexOf("center") + 7;
+        begin = pointStr.indexOf(init) + init.length() + 2;
         end = pointStr.indexOf(separator) - 1;
         return (Point) parse(pointStr.substring(begin, end));
     }
 
-    // toJson definitions
-
-    private static String center2json(Point center){
+    private static String point2json(Point center){
         return "{ type: point, x: " + center.getX() + ", y: " + center.getY() + " }";
     }
-
-
 
     private static String color2json(GraphicsObject go, String type){
         String prefix, suffix;
@@ -158,19 +137,19 @@ public class JSON {
 
     private static String attrs2json(GraphicsObject go){
         String output = "";
-        if (go.get_name() == "square"){
+        if (go.get_name().equals("square")){
             Square sq = (Square) go;
             output = "length: " + sq.get_width();
         }
-        else if (go.get_name() == "circle"){
+        else if (go.get_name().equals("circle")){
             Circle ci = (Circle) go;
             output = "radius: " + ci.get_radius();
         }
-        else if (go.get_name() == "rectangle"){
+        else if (go.get_name().equals("rectangle")){
             Rectangle re = (Rectangle) go;
             output = "height: " + re.get_height() + ", width: " + re.get_width();
         }
-        else if (go.get_name() == "triangle"){
+        else if (go.get_name().equals("triangle")){
             Triangle tr = (Triangle) go;
             output = "length: " + tr.get_length() + ", height: " + tr.get_height() ;
         }
@@ -179,7 +158,7 @@ public class JSON {
 
     private static String object2json(GraphicsObject go){
         String prefix = "center: ";
-        prefix += center2json(go.center()) + ", ";
+        prefix += point2json(go.center()) + ", ";
         for (String type : new String[] {"inner", "outer"}){
             String color = color2json(go, type);
             prefix += color.isEmpty() ? "" : color + ", ";

@@ -19,7 +19,7 @@ public class Triangle extends GraphicsObject {
         Boolean inner, outer;
         inner = json.contains("inner");
         outer = json.contains("outer");
-        center = JSON.parsePoint(json, (inner) ? "inner" : (outer) ? "outer" : "length");
+        center = JSON.parsePoint(json, "center", (inner) ? "inner" : (outer) ? "outer" : "length");
         if (inner){
             String separator = (outer) ? "outer" : "length";
             inner_color = JSON.parseColor(json, "inner", separator);

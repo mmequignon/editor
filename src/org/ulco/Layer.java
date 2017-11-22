@@ -9,10 +9,7 @@ public class Layer implements Container{
     }
 
     public Layer(String json) {
-        Vector<String> separators = new Vector<String>();
-        separators.add("objects");
-        separators.add("groups");
-        separators.add("}");
+        String[] separators = new String[] {"objects", "groups", "}"};
         children = JSON.parseItems(json, separators);
     }
 

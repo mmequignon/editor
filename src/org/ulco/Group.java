@@ -10,10 +10,7 @@ public class Group extends GraphicsObject implements Container {
     }
 
     public Group(String json) {
-        Vector<String> separators = new Vector<String>();
-        separators.add("objects");
-        separators.add("groups");
-        separators.add("}");
+        String[] separators = new String[] {"objects", "groups", "}"};
         children = JSON.parseItems(json, separators);
     }
 
@@ -71,24 +68,19 @@ public class Group extends GraphicsObject implements Container {
         return 2;
     }
 
-    private String export(String type){
-        boolean json = type.equals("json");
-        String object_str = (json) ? "{ type: group, objects : { " : "group[[";
-        String group_str = (json) ? " }, groups : { " : "],[";
-        String suffix_str = (json) ? " } }" : "]]";
-        for (GraphicsObject element : children) {
-            if (element.type() == 1) {
-                object_str += ((json) ? JSON.parsable2json(element) : element.toString()) + ", ";
+    public String toString() {
+        String object_str = "group[[";
+        String group_str = "],[";
+        String suffix_str = "]]";
+        for (GraphicsObject element : children){
+            if (element.type() == 1){
+                object_str += element.toString() + ", ";
             }
             else {
-                group_str += json ? JSON.parsable2json(element) : element.toString();
+                group_str += element.toString();
             }
         }
         return object_str.substring(0, object_str.length() -2) + group_str + suffix_str;
-    }
-
-    public String toString() {
-        return export("string");
     }
 
     public String get_name(){

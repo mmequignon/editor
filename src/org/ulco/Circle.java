@@ -17,7 +17,7 @@ public class Circle extends GraphicsObject {
         Boolean inner, outer;
         inner = json.contains("inner");
         outer = json.contains("outer");
-        m_center = JSON.parsePoint(json, (inner) ? "inner" : (outer) ? "outer" : "radius");
+        m_center = JSON.parsePoint(json, "center", (inner) ? "inner" : (outer) ? "outer" : "radius");
         if (inner){
             String separator = (outer) ? "outer" : "radius";
             inner_color = JSON.parseColor(json, "inner", separator);

@@ -8,9 +8,7 @@ public class Document implements Container{
     }
 
     public Document(String json) {
-        Vector<String> separators = new Vector<String>();
-        separators.add("layers");
-        separators.add("}");
+        String[] separators = new String[] {"layers", "}"};
         children = JSON.parseItems(json, separators);
     }
 

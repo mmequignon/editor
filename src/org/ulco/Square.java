@@ -8,7 +8,7 @@ public class Square extends Rectangle {
     }
 
     public Square(String json) {
-        m_origin = JSON.parsePoint(json, "length");
+        m_origin = JSON.parsePoint(json, "center","length");
         m_width = JSON.parseDouble(json, "length", "}");
         m_height = JSON.parseDouble(json, "length", "}");
     }

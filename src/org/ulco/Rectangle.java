@@ -11,7 +11,7 @@ public class Rectangle extends GraphicsObject {
     }
 
     public Rectangle(String json) {
-        m_origin = JSON.parsePoint(json, "height");
+        m_origin = JSON.parsePoint(json, "center", "height");
         m_height = JSON.parseDouble(json, "height", "width");
         m_width = JSON.parseDouble(json, "width", "}");
     }
